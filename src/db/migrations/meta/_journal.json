@@ -15,6 +15,13 @@
       "when": 1780606216346,
       "tag": "0001_far_whiplash",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1780692950124,
+      "tag": "0002_puzzling_skreet",
+      "breakpoints": true
     }
   ]
 }
