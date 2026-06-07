@@ -1,49 +1,221 @@
+@import "tailwindcss";
+
+/* next-themes toggles a `.dark` class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ----------------------------------------------------------------------------
+   Operixa brand tokens — Premium · Futuristic · AI-native
+---------------------------------------------------------------------------- */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
+  --muted: #52525b;
+  --border: #e5e7eb;
+  --brand: #7c3aed; /* violet-600 */
+  --brand-hover: #6d28d9; /* violet-700 */
+  --brand-foreground: #ffffff;
+  --accent: #06b6d4; /* cyan */
+
+  /* dashboard / card surfaces */
+  --card: #ffffff;
+  --card-2: #f6f6f9;
+  --card-border: #ececf1;
+  --glow: rgba(124, 58, 237, 0.16);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.dark {
+  --background: #06050d;
+  --foreground: #fafafa;
+  --muted: #a1a1aa;
+  --border: #1f1f29;
+  --brand: #7c3aed;
+  --brand-hover: #8b5cf6;
+  --brand-foreground: #ffffff;
+  --accent: #22d3ee;
+
+  --card: #0e0c1a;
+  --card-2: #15131f;
+  --card-border: #232132;
+  --glow: rgba(124, 58, 237, 0.38);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-card-border: var(--card-border);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Brand gradient text — used on "AI Teams" */
+.brand-gradient-text {
+  background-image: linear-gradient(95deg, #7c3aed 0%, #8b5cf6 40%, #22a3ee 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Animated, shimmering gradient text — a bright band sweeps across + soft glow */
+@keyframes text-shimmer {
+  to { background-position: 200% 50%; }
+}
+.brand-gradient-text-animated {
+  background-image: linear-gradient(
+    100deg,
+    #7c3aed 0%,
+    #8b5cf6 22%,
+    #c4b5fd 42%,
+    #22a3ee 60%,
+    #8b5cf6 82%,
+    #7c3aed 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 6.5s linear infinite;
+  filter: drop-shadow(0 0 16px color-mix(in srgb, var(--brand) 45%, transparent));
+}
+
+/* Premium CTA — moving gradient fill + pulsing glow/shadow expansion */
+@keyframes cta-gradient {
+  to { background-position: 200% 50%; }
+}
+@keyframes cta-glow {
+  0%, 100% {
+    box-shadow: 0 10px 30px -10px var(--brand),
+      0 0 0 0 color-mix(in srgb, var(--brand) 40%, transparent);
+  }
+  50% {
+    box-shadow: 0 16px 42px -8px var(--brand),
+      0 0 24px 2px color-mix(in srgb, var(--brand) 45%, transparent);
+  }
+}
+.cta-premium {
+  background-image: linear-gradient(
+    100deg,
+    #6d28d9 0%,
+    #7c3aed 25%,
+    #8b5cf6 50%,
+    #6366f1 75%,
+    #6d28d9 100%
+  );
+  background-size: 200% auto;
+  animation: cta-gradient 5s linear infinite, cta-glow 3.6s ease-in-out infinite;
+}
+.cta-premium:hover {
+  animation-duration: 2.2s, 3.6s;
+}
+
+/* Flowing gradient border (navbar hairline) */
+@keyframes border-flow {
+  to { background-position: 200% 0; }
+}
+.nav-border-flow {
+  background-size: 200% 100%;
+  animation: border-flow 8s linear infinite;
+}
+
+/* Subtle perspective grid for hero backdrop — slowly drifts */
+.bg-grid {
+  background-image: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--border) 70%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--border) 70%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 56px 56px;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 40s linear infinite;
+}
+
+/* Flowing dashes for the agent orbit ring */
+@keyframes orbit-flow {
+  to { stroke-dashoffset: -14; }
+}
+.orbit-flow {
+  animation: orbit-flow 1.1s linear infinite;
+}
+
+/* Slow drifting aurora — Layer 1 of the hero background (GPU: transform only) */
+@keyframes aurora-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+  33%      { transform: translate3d(2.5%, 1.5%, 0) scale(1.12); }
+  66%      { transform: translate3d(-2%, -1%, 0) scale(1.08); }
+}
+.animate-aurora {
+  animation: aurora-drift 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Ambient glow pulse — behind dashboard & agent nodes (opacity/scale only) */
+@keyframes ambient-pulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%      { opacity: 0.85; transform: scale(1.08); }
+}
+.animate-ambient {
+  animation: ambient-pulse 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-aurora, .animate-ambient, .animate-float, .animate-spin-slow,
+  .brand-gradient-text-animated, .cta-premium, .nav-border-flow {
+    animation: none !important;
   }
 }
 
+/* Navbar premium effects (transform/opacity only → GPU, 60fps) */
+@keyframes nav-breathe {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.6; }
+}
+@keyframes nav-sweep {
+  0% { transform: translateX(-180%) skewX(-18deg); }
+  55%, 100% { transform: translateX(320%) skewX(-18deg); }
+}
+.nav-breathe { animation: nav-breathe 4.5s ease-in-out infinite; }
+.nav-sweep { animation: nav-sweep 5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .nav-breathe, .nav-sweep { animation: none !important; }
+}
+
 html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+::selection {
+  background: color-mix(in srgb, var(--brand) 35%, transparent);
 }
