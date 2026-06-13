@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Providers } from "./providers";
 import { NeuralBackground } from "@/components/landing/neural-background";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Operixa — Build Software with AI Teams",
@@ -24,10 +25,12 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <body className="font-sans antialiased">
-        <Providers>
-          <NeuralBackground />
-          {children}
-        </Providers>
+        <ClerkProvider>
+          <Providers>
+            <NeuralBackground />
+            {children}
+          </Providers>
+        </ClerkProvider>
       </body>
     </html>
   );
